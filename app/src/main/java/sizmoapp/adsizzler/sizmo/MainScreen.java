@@ -31,6 +31,10 @@ public class MainScreen extends Slider {
     ListViewAdapter adapter;
     ProgressDialog mProgressDialog;
     ArrayList<HashMap<String, String>> arraylist;
+    static String RANK = "rank";
+    static String COUNTRY = "country";
+    static String POPULATION = "population";
+    static String FLAG = "flag";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

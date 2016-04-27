@@ -70,12 +70,12 @@ public class ListViewAdapter extends BaseAdapter {
         flag = (ImageView) itemView.findViewById(R.id.flag);
 
         // Capture position and set results to the TextViews
-        rank.setText(resultp.get(MainActivity.RANK));
-        country.setText(resultp.get(MainActivity.COUNTRY));
-        population.setText(resultp.get(MainActivity.POPULATION));
+        rank.setText(resultp.get(MainScreen.RANK));
+        country.setText(resultp.get(MainScreen.COUNTRY));
+        population.setText(resultp.get(MainScreen.POPULATION));
         // Capture position and set results to the ImageView
         // Passes flag images URL into ImageLoader.class
-        imageLoader.DisplayImage(resultp.get(MainActivity.FLAG), flag);
+        imageLoader.DisplayImage(resultp.get(MainScreen.FLAG), flag);
         // Capture ListView item click
         itemView.setOnClickListener(new OnClickListener() {
 
@@ -85,13 +85,13 @@ public class ListViewAdapter extends BaseAdapter {
                 resultp = data.get(position);
                 Intent intent = new Intent(context, SingleItemView.class);
                 // Pass all data rank
-                intent.putExtra("rank", resultp.get(MainActivity.RANK));
+                intent.putExtra("rank", resultp.get(MainScreen.RANK));
                 // Pass all data country
-                intent.putExtra("country", resultp.get(MainActivity.COUNTRY));
+                intent.putExtra("country", resultp.get(MainScreen.COUNTRY));
                 // Pass all data population
-                intent.putExtra("population",resultp.get(MainActivity.POPULATION));
+                intent.putExtra("population",resultp.get(MainScreen.POPULATION));
                 // Pass all data flag
-                intent.putExtra("flag", resultp.get(MainActivity.FLAG));
+                intent.putExtra("flag", resultp.get(MainScreen.FLAG));
                 // Start SingleItemView Class
                 context.startActivity(intent);
 
