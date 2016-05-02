@@ -13,6 +13,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
+import java.io.File;
+
 public class SplashScreen extends AppCompatActivity {
     Animation mLoadAnimation;
     ImageView logo;
@@ -46,7 +48,7 @@ public class SplashScreen extends AppCompatActivity {
                 Intent inn = new Intent(SplashScreen.this,Introduction.class);
                 startActivity(inn);
                 finish();
-                //	overridePendingTransition(R.anim.slide_in_right, R.anim.slide_in_right);
+
 
             }
         });

@@ -116,7 +116,7 @@
             android:id="@+id/skip2"
             android:layout_width="0dp"
             android:onClick="skip1"
-
+            android:orientation="horizontal"
             android:layout_height="match_parent"
             android:layout_weight=".2"/>
 
@@ -125,6 +125,7 @@
             android:id="@+id/ls2"
             android:layout_width="0dp"
             android:onClick="skip1"
+            android:orientation="horizontal"
             android:layout_height="match_parent"
             android:layout_weight=".6"/>
 
@@ -132,6 +133,7 @@
         <LinearLayout
             android:id="@+id/forward2"
             android:layout_width="0dp"
+            android:orientation="horizontal"
             android:layout_height="match_parent"
             android:layout_weight=".2"/>
     </LinearLayout>

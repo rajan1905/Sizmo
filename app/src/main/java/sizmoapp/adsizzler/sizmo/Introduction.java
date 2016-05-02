@@ -1,6 +1,8 @@
 package sizmoapp.adsizzler.sizmo;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -21,7 +23,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.HashMap;
+
 public class Introduction extends AppCompatActivity {
+    HashMap<String,String> contacts=new HashMap<String,String>();
    static LinearLayout skip1=null,skip2=null,skip3=null,forward1=null,forward2=null,forward3=null,ls1=null,ls2=null,ls3=null;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -52,6 +57,16 @@ public class Introduction extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
+
+        //Contacts
+        Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,null,null, null);
+        while (phones.moveToNext())
+        {
+            contacts.put(phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)),phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
+
+        }
+        Toast.makeText(getApplication(),contacts.toString(),Toast.LENGTH_LONG).show();
+        phones.close();
 
     }
 
@@ -149,7 +164,8 @@ public class Introduction extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView;
+            View rootView=null;
+            System.out.println("Filer "+getArguments().getInt(ARG_SECTION_NUMBER));
             if(getArguments().getInt(ARG_SECTION_NUMBER)==1){
             rootView = inflater.inflate(R.layout.intro1, container, false);
             skip1=(LinearLayout)rootView.findViewById(R.id.skip1);

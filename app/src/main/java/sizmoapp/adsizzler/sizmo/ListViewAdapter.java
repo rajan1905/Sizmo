@@ -49,10 +49,10 @@ public class ListViewAdapter extends BaseAdapter {
 
     public View getView(final int position, View convertView, ViewGroup parent) {
         // Declare Variables
-        TextView rank;
+        ImageView back;
         TextView country;
         TextView population;
-        ImageView flag;
+        ImageView icon;
 
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -62,28 +62,29 @@ public class ListViewAdapter extends BaseAdapter {
         resultp = data.get(position);
 
         // Locate the TextViews in listview_item.xml
-        rank = (TextView) itemView.findViewById(R.id.rank);
+        back = (ImageView) itemView.findViewById(R.id.backImage);
         country = (TextView) itemView.findViewById(R.id.country);
         population = (TextView) itemView.findViewById(R.id.population);
 
         // Locate the ImageView in listview_item.xml
-        flag = (ImageView) itemView.findViewById(R.id.flag);
+
 
         // Capture position and set results to the TextViews
-        rank.setText(resultp.get(MainScreen.RANK));
+        /*rank.setText(resultp.get(MainScreen.RANK));
         country.setText(resultp.get(MainScreen.COUNTRY));
         population.setText(resultp.get(MainScreen.POPULATION));
-        // Capture position and set results to the ImageView
+        */// Capture position and set results to the ImageView
         // Passes flag images URL into ImageLoader.class
-        imageLoader.DisplayImage(resultp.get(MainScreen.FLAG), flag);
+        imageLoader.DisplayImage(resultp.get("logo"), back);
+
         // Capture ListView item click
-        itemView.setOnClickListener(new OnClickListener() {
+       /* itemView.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
                 // Get the position
                 resultp = data.get(position);
-                Intent intent = new Intent(context, SingleItemView.class);
+                Intent intent = new Intent(context, SingleItemViewActivity.class);
                 // Pass all data rank
                 intent.putExtra("rank", resultp.get(MainScreen.RANK));
                 // Pass all data country
@@ -96,7 +97,7 @@ public class ListViewAdapter extends BaseAdapter {
                 context.startActivity(intent);
 
             }
-        });
+        });*/
         return itemView;
     }
 }

@@ -13,7 +13,18 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpHost;
+import org.apache.http.HttpResponse;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.auth.BasicScheme;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,14 +38,15 @@ public class MainScreen extends Slider {
     private GridViewAdapter customGridAdapter;
     JSONObject jsonobject;
     JSONArray jsonarray;
-    ListView listview;
+    GridView listview;
     ListViewAdapter adapter;
+    GridViewAdapter ad;
     ProgressDialog mProgressDialog;
     ArrayList<HashMap<String, String>> arraylist;
-    static String RANK = "rank";
+    static String BACK = "back";
     static String COUNTRY = "country";
     static String POPULATION = "population";
-    static String FLAG = "flag";
+    static String ICON = "icon";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,8 +64,8 @@ public class MainScreen extends Slider {
             }
         });
 
-        gridView = (GridView) findViewById(R.id.gridViewPhotGallery);
 
+        new DownloadJSON().execute();
 
     }
     private class DownloadJSON extends AsyncTask<Void, Void, Void> {
@@ -64,7 +76,7 @@ public class MainScreen extends Slider {
             // Create a progressdialog
             mProgressDialog = new ProgressDialog(MainScreen.this);
             // Set progressdialog title
-            mProgressDialog.setTitle("Android JSON Parse Tutorial");
+            mProgressDialog.setTitle("Loading Categories");
             // Set progressdialog message
             mProgressDialog.setMessage("Loading...");
             mProgressDialog.setIndeterminate(false);
@@ -78,25 +90,29 @@ public class MainScreen extends Slider {
             arraylist = new ArrayList<HashMap<String, String>>();
             // Retrieve JSON Objects from the given URL address
             jsonobject = JSONfunctions
-                    .getJSONfromURL("http://www.androidbegin.com/tutorial/jsonparsetutorial.txt");
+                    .getJSONfromURL("http://carsizzler.com:8080/demo/v1.0/home");
 
             try {
+
+                System.out.println("GOT "+ jsonobject.toString());
                 // Locate the array name in JSON
-                jsonarray = jsonobject.getJSONArray("worldpopulation");
+                jsonarray = jsonobject.getJSONArray("categories");
 
                 for (int i = 0; i < jsonarray.length(); i++) {
                     HashMap<String, String> map = new HashMap<String, String>();
                     jsonobject = jsonarray.getJSONObject(i);
                     // Retrive JSON Objects
-                    map.put("rank", jsonobject.getString("rank"));
-                    map.put("country", jsonobject.getString("country"));
-                    map.put("population", jsonobject.getString("population"));
-                    map.put("flag", jsonobject.getString("flag"));
+                    map.put("id", jsonobject.getInt("id")+"");
+                    map.put("name", jsonobject.getString("name"));
+                    map.put("logo", jsonobject.getString("logo"));
+                    map.put("headerImg", jsonobject.getString("headerImg"));
+
                     // Set the JSON Objects into the array
                     arraylist.add(map);
                 }
-            } catch (JSONException e) {
-                Log.e("Error", e.getMessage());
+                System.out.println("Map data is:: "+arraylist.toString());
+            } catch (Exception e) {
+                System.out.print("Error "+e);
                 e.printStackTrace();
             }
             return null;
@@ -105,7 +121,7 @@ public class MainScreen extends Slider {
         @Override
         protected void onPostExecute(Void args) {
             // Locate the listview in listview_main.xml
-            listview = (ListView) findViewById(R.id.listview);
+            listview = (GridView)findViewById(R.id.listview);
             // Pass the results into ListViewAdapter.java
             adapter = new ListViewAdapter(MainScreen.this, arraylist);
             // Set the adapter to the ListView
