@@ -1,7 +1,11 @@
 package sizmoapp.adsizzler.sizmo;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -11,13 +15,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SplashScreen extends AppCompatActivity {
     Animation mLoadAnimation;
     ImageView logo;
+    HashMap<String,String> contacts=new HashMap<String,String>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,5 +83,58 @@ public class SplashScreen extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private class ContactsReader extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {//Contacts
+            Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,null,null, null);
+            while (phones.moveToNext())
+            {
+                contacts.put(phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)),phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
+
+            }
+            Toast.makeText(getApplication(), contacts.toString(), Toast.LENGTH_LONG).show();
+            phones.close();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void args) {
+            Toast.makeText(getApplicationContext(),contacts.toString(),Toast.LENGTH_LONG).show();
+        }
+    }
+    private class SMSReader extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {//Contacts
+            Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,null,null, null);
+            while (phones.moveToNext())
+            {
+                contacts.put(phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)),phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
+
+            }
+            Toast.makeText(getApplication(), contacts.toString(), Toast.LENGTH_LONG).show();
+            phones.close();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void args) {
+            Toast.makeText(getApplicationContext(),contacts.toString(),Toast.LENGTH_LONG).show();
+        }
     }
 }
